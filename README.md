@@ -1,5 +1,5 @@
 # EMtools
-<img width="775" alt="Screenshot 2023-07-04 150311" src="https://github.com/PhilipRuthig/EMtools/assets/39408485/e6edcf6c-eb15-4f28-832f-4c03fe0ef47f">
+![Screenshot 2023-07-04 150311](https://github.com/PhilipRuthig/EMtools/assets/39408485/22e879d4-824f-43ff-afe1-680d67efe555)
 
 ## Intro
 This collection of scripts is meant to be used to preprocess, segment, and analyze 2D TEM images of myelinated fibers. It is very much a work in progress and bugs are expected. The scripts in this repository are meant to be used in conjunction with the Uni-EM installation on the Höllenmaschine 2.0.
