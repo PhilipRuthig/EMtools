@@ -10,7 +10,7 @@ Note: The model was trained on manually labeled data from human corpus callosum 
 ### 1) Prepare your 2D TEM images 
    Your TEM images should be in .tif or .png format. Put them all into a single folder without sub-folders.
 
-### 2) Run the preprocessinbg
+### 2) Run the preprocessing
    The preprocessing script applies contrast adapted histogram equalization (CLAHE, see e.g. https://imagej.net/plugins/clahe) and then resaves your data. To run it, follow these steps:
  - Press windows + R
  - Type in `powershell`
