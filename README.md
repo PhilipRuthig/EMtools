@@ -4,7 +4,7 @@
 ## Intro
 This collection of scripts is meant to be used to preprocess, segment, and analyze 2D TEM images of myelinated fibers. It is very much a work in progress and bugs are expected. The scripts in this repository are meant to be used in conjunction with the Uni-EM installation on the Höllenmaschine 2.0.
 
-Note: The model was trained on manually labeled data from human corpus callosum samples. Therefore, this is where it works best. Some testing in human superficial white matter and rat and hamster cortex showed that it also yields okay results when used somewhere else, as long as the tissue contains myelinated fibers.
+Note: The model was trained on manually labeled data from human corpus callosum samples. Therefore, this is where it works best. Some testing in human superficial white matter and rat and hamster cortex showed that it also yields okay results when used somewhere else, as long as the tissue contains myelinated fibers. The more similar your data is to the image shown above, the better.
 
 ## Step-by-Step
 ### 1) Prepare your 2D TEM images 
