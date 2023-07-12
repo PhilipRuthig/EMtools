@@ -16,7 +16,7 @@ Disclaimer: The model was trained on manually labeled data from human corpus cal
 
 
 ## Step-by-Step
-The whole process takes maybe 30 minutes for a few small images (<100MB), longer for more. For most use cases, all of these data analysis will fit within half a day or so.
+The whole process takes maybe 30 minutes for a few small images (<100MB), longer for more. For most use cases, all of these data analysis steps will fit within half a day or so.
 
 ### 0) Prepare your 2D TEM images 
    Your raw TEM images should be (approximately) 3000x magnification, in .tif or .png format. Put them all into a single folder.
