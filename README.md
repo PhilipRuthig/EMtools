@@ -55,9 +55,8 @@ Side note: At this point, if you are proficient with image analysis tools (e.g. 
 - Insert the path where your predicted images were saved to the variable `path_raw_predictions`.
 - Create an empty folder and insert its directory to `path_results`. This is where your results and plots will be created.
    - Side note: The output from the DNN is a classification of your data into three categories: 1) Background 2) Fiber and 3) Myelin. All three of these classes are coded as intensities in your greyscale output image. Depending on how many cases where the model was uncertain you want to include in downstream analysis, you can vary the initial thresholds. I suggest using the following values (which are already in the script): Myelin > 55, Fibers >24 and <40, Background is <=24. You can try and adapt these if you feel it might work better with your data.
-
 - Click the double arrows at the top of the jupyter notebook to run it
-- The script iterates through all of your data and saves processed versions of each image in `path_results`. You will also get a .csv file once everything is done, which includes all of your measured results.
+- The script iterates through all of your data and saves processed versions of each image in `path_results`. You will also get a .csv and .xlsx file once everything is done, both of which include all of your measured results.
 
 
 ### 4 (optional) Run the validation
