@@ -2,46 +2,55 @@
 ![Screenshot 2023-07-04 150311](https://github.com/PhilipRuthig/EMtools/assets/39408485/22e879d4-824f-43ff-afe1-680d67efe555)
 
 ## Intro
-This collection of scripts is meant to be used to preprocess, segment, and analyze 2D TEM images of myelinated fibers. It is very much a work in progress and bugs are expected. The scripts in this repository are meant to be used in conjunction with the Uni-EM installation on the Höllenmaschine 2.0.
+This collection of scripts is meant to be used to preprocess, segment, and analyze 2D TEM images of myelinated fibers. It is very much a work in progress and bugs are expected. Nevertheless, the pipeline usually runs well and delivers (imo) satisfactory results. The scripts in this repository are meant to be used in conjunction with the Uni-EM installation on the Höllenmaschine 2.0 (Room 2101). 
 
-Note: The model was trained on manually labeled data from human corpus callosum samples. Therefore, this is where it works best. Some testing in human superficial white matter and rat and hamster cortex showed that it also yields okay results when used somewhere else, as long as the tissue contains myelinated fibers. The more similar your data is to the image shown above, the better.
+The whole analysis pipeline consists of three core steps:
+   *1) Preprocessing.* This step applies a filter to your raw images, enhancing the local contrast
+   *2) Prediction by the neural net.* This neural net is trained to classify your images in three categories: Myelin, Fiber, and Background. The output is of the same shape as your input data, with each pixel intensity value corresponding to one of these three classes (Semantic segmentation).
+   *3) Postprocessing.* In this step, the Semantic segmentation is turned into an instance segmentation. This means that through a series of image analysis steps, neighbouring instances of the same class (e.g. two myelin sheaths touching) are detached from each other and individually labeled. After that, a series of measurements are taken from each cell and results are saved as images and a .csv file.
+
+Disclaimer: The model was trained on manually labeled data from human corpus callosum samples. Therefore, this is where it works best. Some testing in human superficial white matter and rat and hamster cortex showed that it also yields okay results when used somewhere else, as long as the tissue contains myelinated fibers (the more, the better). The more similar your data is to the image shown above, the better the whole pipeline will perform.
 
 ## Step-by-Step
-### 1) Prepare your 2D TEM images 
-   Your TEM images should be in .tif or .png format. Put them all into a single folder without sub-folders.
+The whole process takes maybe 30 minutes for a few small images (<100MB), longer for more. For most use cases, all of these data analysis will fit within half a day or so.
 
-### 2) Run the preprocessing
-   The preprocessing script applies contrast adapted histogram equalization (CLAHE, see e.g. https://imagej.net/plugins/clahe) and then resaves your data. To run it, follow these steps:
+### 0) Prepare your 2D TEM images 
+   Your raw TEM images should be (approximately) 3000x magnification, in .tif or .png format. Put them all into a single folder.
+
+### 1) Run the preprocessing
+   The preprocessing script (`pre_uni-em.ipynb`) applies contrast adapted histogram equalization (CLAHE, see e.g. https://imagej.net/plugins/clahe) and then resaves your data to a different directory. To run it, follow these steps:
  - Press windows + R
  - Type in `powershell`
- - Navigate to your (personal) folder where you cloned/downloaded this repository to
+ - Navigate to your (personal) folder, to where you cloned/downloaded this repository (use `cd` command)
  - Type `jupyter notebook`. This should open a browser window with a file browser. Continue in this file browser.
  - Open `pre_uni-em.ipynb` 
- - For `path_input`, put the path where you saved your raw images
- - For `path_output`, put the path where you would like your preprocessed images to be in.
+ - For `path_input`, put the path where you saved your raw images.
+ - For `path_output`, put the path where you would like your preprocessed images to be re-saved to.
  - Click the double arrow at the top of the jupyter notebook to run it.
- - Keep the jupyter server in the browser open for later.
+ - Keep the browser open for later.
 
-### 3) Predict the data using Uni-EM
+### 2) Predict the data using Uni-EM
 - Open Uni-EM on the desktop (`Uni-EM\main.exe`) - starting this might take a minute
-- Open the following three folders by dragging and dropping them into the Uni-EM window. There is no feedback to this from the program, only in the accompanying terminal.
+- Open the following three folders by dragging and dropping them into the Uni-EM window. There is no feedback to this from the GUI window, only in the accompanying terminal:
     1) The folder your preprocessed images are in: `path_results` as described above
     2) An empty folder you want your predicted images to be in
     3) The model folder `E:\AG_Morawski\Philip\EM\20230419_densenet_12_12_20`
-- Click Segmentation -> 2D DNN and then highlight the inference tab
+- Click Segmentation -> 2D DNN and then click on the inference tab
 - Select the three folders you already opened above as Image folder, Model Folder, and Output Segmentation folder.
 - Select the maximum maximal unit size (2048)
-- Click "Execute". The whole process should take a few minutes to an hour, depending on how many images are in the folder.
-- Once the script is done, it will display `Inference finished` in the Uni-EM terminal.
+- Click "Execute" and watch the model do its work in the terminal (or don't and grab a coffee)
+- Once the script is done, it will display `Inference finished` in the terminal. 
 
-The output files classify your data into three categories: 1) Background 2) Fiber and 3) Myelin. All of these three classes are coded as intensities in your greyscale output image. Depending on how many of the cases where the model was uncertain you want to include, you can vary the initial threshold you want to include in further analyses. I suggest using the following values: Myelin > 55, Fibers >24 and <40, Background is <=24. 
+Side note: At this point, if you are proficient with image analysis tools (e.g. python or FIJI), you may want to take these output images and design your own downstream analysis. However, you can also feel free to continue with the `post_uni-em.ipynb`. 
 
-### 4) Run the postprocessing script.
-- Return to the Jupyter Server window in the browser, which you opened in step 2. Open `post_uni-em.ipynb`.
+### 3) Run the postprocessing script.
+- Return to the Jupyter window in the browser, which you opened in step 1. Open `post_uni-em.ipynb`.
 - Insert the path where your predicted images were saved to the variable `seg_path`.
 - Create an empty folder and insert its directory to `path_results`. This is where your results and plots will be created.
-- Click the double arrows at the top of the jupyter notebook to run it
-- The script iterates through all of your data and saves processed versions of each image in `path_results`. You will also get a .csv file once everything is done, which includes all of your results.
+   - Side note: The output from the DNN is a classification of your data into three categories: 1) Background 2) Fiber and 3) Myelin. All three of these classes are coded as intensities in your greyscale output image. Depending on how many cases where the model was uncertain you want to include in downstream analysis, you can vary the initial thresholds. I suggest using the following values (which are already in the script): Myelin > 55, Fibers >24 and <40, Background is <=24. You can try and adapt these if you feel it might work better with your data.
 
-### 5) (optional) Run the validation
+- Click the double arrows at the top of the jupyter notebook to run it
+- The script iterates through all of your data and saves processed versions of each image in `path_results`. You will also get a .csv file once everything is done, which includes all of your measured results.
+
+### 4 (optional) Run the validation
 - For the validation, you will need a manually labeled dataset, your raw prediction results and `post_uni-em_val.ipynb`. Reach out to Philip for details. Documentation will come in the future.
