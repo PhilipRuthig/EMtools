@@ -23,12 +23,12 @@ The whole process takes maybe 30 minutes for a few small images (<100MB), longer
 
 
 ### 1) Run the preprocessing
-   The preprocessing script (`pre_uni-em.ipynb`) applies contrast adapted histogram equalization (CLAHE, see e.g. https://imagej.net/plugins/clahe) and then resaves your data to a different directory. To run it, follow these steps:
+   The preprocessing script (`preprocessing.ipynb`) applies contrast adapted histogram equalization (CLAHE, see e.g. https://imagej.net/plugins/clahe) and then resaves your data to a different directory. To run it, follow these steps:
  - Press windows + R
  - Type in `powershell`
  - Navigate to your (personal) folder, to where you cloned/downloaded this repository (use `cd` command)
  - Type `jupyter notebook`. This should open a browser window with a file browser. Continue in this file browser.
- - Open `pre_uni-em.ipynb` 
+ - Open `preprocessing.ipynb` 
  - For `path_input`, put the path where you saved your raw images.
  - For `path_output`, put the path where you would like your preprocessed images to be re-saved to.
  - Click the double arrow at the top of the jupyter notebook to run it.
@@ -47,11 +47,11 @@ The whole process takes maybe 30 minutes for a few small images (<100MB), longer
 - Click "Execute" and watch the model do its work in the terminal (or don't and grab a coffee)
 - Once the script is done, it will display `Inference finished` in the terminal. 
 
-Side note: At this point, if you are proficient with image analysis tools (e.g. python or FIJI), you may want to take these output images and design your own downstream analysis. However, you can also feel free to continue with the `post_uni-em.ipynb`. 
+Side note: At this point, if you are proficient with image analysis tools (e.g. python or FIJI), you may want to take these output images and design your own downstream analysis. However, you can also feel free to continue with the `postprocessing.ipynb`. 
 
 
 ### 3) Run the postprocessing script.
-- Return to the Jupyter window in the browser, which you opened in step 1. Open `post_uni-em.ipynb`.
+- Return to the Jupyter window in the browser, which you opened in step 1. Open `postprocessing.ipynb`.
 - Insert the path where your predicted images were saved to the variable `path_raw_predictions`.
 - Create an empty folder and insert its directory to `path_results`. This is where your results and plots will be created.
    - Side note: The output from the DNN is a classification of your data into three categories: 1) Background 2) Fiber and 3) Myelin. All three of these classes are coded as intensities in your greyscale output image. Depending on how many cases where the model was uncertain you want to include in downstream analysis, you can vary the initial thresholds. I suggest using the following values (which are already in the script): Myelin > 55, Fibers >24 and <40, Background is <=24. You can try and adapt these if you feel it might work better with your data.
@@ -60,4 +60,5 @@ Side note: At this point, if you are proficient with image analysis tools (e.g. 
 
 
 ### 4 (optional) Run the validation
-- For the validation, you will need a manually labeled dataset of your data, your raw prediction results and `post_uni-em_val.ipynb`. Reach out to Philip for details. Documentation might come in the future.
+- For the validation, you will need a manually labeled dataset of your data, your raw prediction results and `postprocessing_val.ipynb`. Reach out to Philip for details. Documentation might come in the future.
+
