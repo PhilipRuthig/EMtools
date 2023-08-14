@@ -19,48 +19,45 @@ Disclaimer: The model was trained on manually labeled data from human corpus cal
 The whole process takes maybe 30 minutes for a few small images (<100MB), longer for more. For most use cases, all of these data analysis steps will fit within half a day or so.
 
 ### 0) Prepare your 2D TEM images 
-   Your raw TEM images should be (approximately) 3000x magnification, in .tif or .png format. Put them all into a single folder.
+   Your raw TEM images should be (approximately) 3000x magnification, in .tif or .png format. Put them all into the provided 0_raw folder in the repository.
 
 
 ### 1) Run the preprocessing
-   The preprocessing script (`preprocessing.ipynb`) applies contrast adapted histogram equalization (CLAHE, see e.g. https://imagej.net/plugins/clahe) and then resaves your data to a different directory. To run it, follow these steps:
+   The preprocessing script (`1_preprocessing.ipynb`) applies contrast adapted histogram equalization (CLAHE, see e.g. https://imagej.net/plugins/clahe) and then resaves your data to a different directory. To run it, follow these steps:
  - Press windows + R
  - Type in `powershell`
- - Navigate to your (personal) folder, to where you cloned/downloaded this repository (use `cd` command)
+ - Navigate to your personal copy of this repository (use `cd` command)
  - Type `jupyter notebook`. This should open a browser window with a file browser. Continue in this file browser.
- - Open `preprocessing.ipynb` 
- - For `path_input`, put the path where you saved your raw images.
- - For `path_output`, put the path where you would like your preprocessed images to be re-saved to.
- - Click the double arrow at the top of the jupyter notebook to run it.
+ - Open `preprocessing.ipynb`
+ - Make sure you placed your raw images into the `0_raw` folder, press the double arrow at the top of the window.
+ - After the script is finished, your preprocessed and re-saved data should be in the `1_preprocessed` folder.
  - Keep the browser open for later.
-
 
 ### 2) Predict the data using Uni-EM
 - Open Uni-EM on the desktop (`Uni-EM\main.exe`) - starting this might take a minute
 - Open the following three folders by dragging and dropping them into the Uni-EM window. There is no feedback to this from the GUI window, only in the accompanying terminal:
-    1) The folder your preprocessed images are in: `path_results` as described above
-    2) An empty folder you want your predicted images to be in
-    3) The model folder `E:\AG_Morawski\Philip\EM\20230419_densenet_12_12_20`
+    1) The folder your preprocessed images are in: `1_preprocessed` as described above
+    2) An empty folder you want your predicted images to be in (`2_predicted`)
+    3) The model folder `E:\AG_Morawski\Philip\EM\20230419_densenet_12_12_20` (Please *do not* move this folder)
 - Click Segmentation -> 2D DNN and then click on the inference tab
 - Select the three folders you already opened above as Image folder, Model Folder, and Output Segmentation folder.
 - Select the maximum maximal unit size (2048)
 - Click "Execute" and watch the model do its work in the terminal (or don't and grab a coffee)
 - Once the script is done, it will display `Inference finished` in the terminal. 
 
-Side note: At this point, if you are proficient with image analysis tools (e.g. python or FIJI), you may want to take these output images and design your own downstream analysis. However, you can also feel free to continue with the `postprocessing.ipynb`. 
+Side note: At this point, if you are proficient with image analysis tools (e.g. python or FIJI), you may want to take these output images and design your own downstream analysis. However, you can also feel free to continue with the `3_postprocessing.ipynb`. 
 
 
 ### 3) Run the postprocessing script.
-- Return to the Jupyter window in the browser, which you opened in step 1. Open `postprocessing.ipynb`.
-- Insert the path where your predicted images were saved to the variable `path_raw_predictions`.
-- Create an empty folder and insert its directory to `path_results`. This is where your results and plots will be created.
-   - Side note: The output from the DNN is a classification of your data into three categories: 1) Background 2) Fiber and 3) Myelin. All three of these classes are coded as intensities in your greyscale output image. Depending on how many cases where the model was uncertain you want to include in downstream analysis, you can vary the initial thresholds. I suggest using the following values (which are already in the script): Myelin > 55, Fibers >24 and <40, Background is <=24. You can try and adapt these if you feel it might work better with your data.
+- Return to the Jupyter window in the browser, which you opened in step 1. Open `3_postprocessing.ipynb`.
+- If you used the folder structure of the repository, you do not need to prepare anything. If not, insert the path where your predicted images were saved to the variable `path_raw_predictions`. If you want 
+  - Side note: The output from the DNN is a classification of your data into three categories: 1) Background 2) Fiber and 3) Myelin. All three of these classes are coded as intensities in your greyscale output image. Depending on how many pixels where the model was uncertain you want to include in downstream analysis, you can vary the initial thresholds. I suggest using the following values (which are already in the script): Myelin > 55, Fibers >24 and <40, Background is <=24. You can try and adapt these if you feel it might work better with your data.
 - Click the double arrows at the top of the jupyter notebook to run it
 - The script iterates through all of your data and saves processed versions of each image in `path_results`. You will also get a .csv and .xlsx file once everything is done, both of which include all of your measured results.
 
 
 ### 4 (optional) Run the validation
 - To get measures of how good the model performs on your data, you will need to validate the model. For this purpose, you can use `postprocessing_val.ipynb`. To do so, you will need a manually labeled version of your data and the models raw prediction results (which are generated after step #2).
-- manually labeled data can be generated e.g. with GIMP (https://www.gimp.org/) or a variety of other image manipulation tools.
-- To run the validation script, assign the variable `prediction_path` to the path to your prediction, and `validation_path` to your manually labeled image. You will also need to specify a folder for the results named `save_path`.
+- manually labeled data can be generated e.g. with GIMP (https://www.gimp.org/) or a variety of other image manipulation tools. It should be analogous to the included validation.png.
+- To run the validation script, replace the present files with your own data and press the double arrow at the top of the ipynb.
 - After running the script, you will get a bunch of different measures telling how well the whole pipeline works on your data.
