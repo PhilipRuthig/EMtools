@@ -4,7 +4,7 @@
 ## Intro
 This collection of scripts is meant to be used to preprocess, segment, and analyze 2D TEM images of myelinated fibers. It is very much a work in progress and bugs are expected. Nevertheless, the pipeline usually runs well and delivers (imo) satisfactory results. The scripts in this repository are meant to be used in conjunction with the Uni-EM installation on the Höllenmaschine 2.0 (Room 2101) of the Paul Flechsig Institute in Leipzig. 
 
-The whole analysis pipeline consists of three core steps:
+The whole analysis pipeline consists of four core steps, including an optional validation step:
   1) Preprocessing. This step applies a filter to your raw images, enhancing the local contrast while keeping details.
   2) Prediction by the neural net. This neural net is trained to classify your images in three categories: Myelin, Fiber, and Background. The output is of the same shape as your input data, with each pixel intensity value corresponding to one of these three classes (Semantic segmentation).
   3) Postprocessing. In this step, the Semantic segmentation (which pixel is of myelin/fiber/background class?) is turned into an instance segmentation (which of these pixels are part of a cell?). This means that through a series of image analysis steps, neighbouring instances of the same class (e.g. two myelin sheaths touching) are detached from each other and individually labeled. After that, a series of measurements are taken from each cell and results are saved as images and a .csv file.
