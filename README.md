@@ -2,14 +2,15 @@
 ![Visualization of raw, predicted and final segmentation](https://i.imgur.com/hX9HMJN.jpeg)
 
 ## Intro
-This collection of scripts is meant to be used to preprocess, segment, and analyze 2D TEM images of myelinated fibers. It is very much a work in progress and bugs are expected. Nevertheless, the pipeline usually runs well and delivers (imo) satisfactory results. The scripts in this repository are meant to be used in conjunction with the Uni-EM installation on the Höllenmaschine 2.0 (Room 2101). 
+This collection of scripts is meant to be used to preprocess, segment, and analyze 2D TEM images of myelinated fibers. It is very much a work in progress and bugs are expected. Nevertheless, the pipeline usually runs well and delivers (imo) satisfactory results. The scripts in this repository are meant to be used in conjunction with the Uni-EM installation on the Höllenmaschine 2.0 (Room 2101) of the Paul Flechsig Institute in Leipzig. 
 
 The whole analysis pipeline consists of three core steps:
   1) Preprocessing. This step applies a filter to your raw images, enhancing the local contrast while keeping details.
   2) Prediction by the neural net. This neural net is trained to classify your images in three categories: Myelin, Fiber, and Background. The output is of the same shape as your input data, with each pixel intensity value corresponding to one of these three classes (Semantic segmentation).
   3) Postprocessing. In this step, the Semantic segmentation (which pixel is of myelin/fiber/background class?) is turned into an instance segmentation (which of these pixels are part of a cell?). This means that through a series of image analysis steps, neighbouring instances of the same class (e.g. two myelin sheaths touching) are detached from each other and individually labeled. After that, a series of measurements are taken from each cell and results are saved as images and a .csv file.
+  4) Optional: Validation. This step requires a manually labeled "ground truth" dataset of your specific data and outputs various validation measures, which your reviewers will probably want to see.
 
-Disclaimer: The model was trained on manually labeled data from human corpus callosum samples. Therefore, this is where it works best. Some testing in human superficial white matter and rat and hamster cortex showed that it also yields satisfactory results when used somewhere else, as long as the tissue contains myelinated fibers (the more, the better). The more similar your data is to the image shown above, the better the whole pipeline will perform.
+Disclaimer: The model was trained on manually labeled data from human corpus callosum samples. Therefore, this is where it works best. Our testing in human superficial white matter and rat and hamster cortex and spinal cord showed that it also yields satisfactory results when used somewhere else, as long as the tissue contains myelinated fibers (the more, the better). A good rule of thumb is: The more similar your data is to the image shown above, the better the whole pipeline will perform.
 
 
 ---
