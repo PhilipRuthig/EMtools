@@ -41,7 +41,7 @@ The whole process takes maybe 30 minutes for a few small images (<100MB), longer
     2) An empty folder you want your predicted images to be in (`2_predicted`)
     3) The model folder `E:\AG_Morawski\Philip\EM\20230419_densenet_12_12_20` (Please *do not* move this folder)
 - Click Segmentation -> 2D DNN and then click on the inference tab
-- Select the three folders you already opened above as Image folder, Model Folder, and Output Segmentation folder.
+- Select the three folders you already opened above as Image folder, Model Folder, and Output Segmentation folder (only the correct folder will appear in each of the dropdown menus).
 - Select the maximum maximal unit size (2048)
 - Click "Execute" and watch the model do its work in the terminal (or don't and grab a coffee)
 - Once the script is done, it will display `Inference finished` in the terminal. 
@@ -49,12 +49,13 @@ The whole process takes maybe 30 minutes for a few small images (<100MB), longer
 Side note: At this point, if you are proficient with image analysis tools (e.g. python or FIJI), you may want to take these output images and design your own downstream analysis. However, you can also feel free to continue with the `3_postprocessing.ipynb`. 
 
 
-### 3) Run the postprocessing script.
+### 3) Run the postprocessing
 - Return to the Jupyter window in the browser, which you opened in step 1. Open `3_postprocessing.ipynb`.
 - If you used the folder structure of the repository, you do not need to prepare anything. If not, insert the path where your predicted images were saved to the variable `path_raw_predictions`. If you want 
   - Side note: The output from the DNN is a classification of your data into three categories: 1) Background 2) Fiber and 3) Myelin. All three of these classes are coded as intensities in your greyscale output image. Depending on how many pixels where the model was uncertain you want to include in downstream analysis, you can vary the initial thresholds. I suggest using the following values (which are already in the script): Myelin > 55, Fibers >24 and <40, Background is <=24. You can try and adapt these if you feel it might work better with your data.
 - Click the double arrows at the top of the jupyter notebook to run it
 - The script iterates through all of your data and saves processed versions of each image in `path_results`. You will also get a .csv and .xlsx file once everything is done, both of which include all of your measured results.
+- For a customized analysis in other programs (FIJI, your own python script, etc..), the raw binary masks are also included in the results (*filename*_outer_labeled.tif and *filename*_inner_labeled.tif).
 
 
 ### 4 (optional) Run the validation
