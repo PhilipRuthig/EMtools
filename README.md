@@ -2,7 +2,7 @@
 ![Visualization of raw, predicted and final segmentation](https://i.imgur.com/hX9HMJN.jpeg)
 
 ## Intro
-This collection of scripts is meant to be used to preprocess, segment, and analyze 2D TEM images of myelinated fibers. It is very much a work in progress and bugs are expected. Nevertheless, the pipeline usually runs well and delivers (imo) satisfactory results. The scripts in this repository are meant to be used in conjunction with the Uni-EM installation on the Höllenmaschine 2.0 (Room 2101) of the Paul Flechsig Institute in Leipzig. 
+This collection of scripts is meant to be used to preprocess, segment, and analyze 2D TEM images of myelinated fibers. It is very much a work in progress and bugs are expected. The scripts in this repository are meant to be used in conjunction with the Uni-EM installation on the Höllenmaschine 2.0 (Room 2101) of the Paul Flechsig Institute in Leipzig. 
 
 The whole analysis pipeline consists of four core steps, including an optional validation step:
   1) Preprocessing. This step applies a filter to your raw images, enhancing the local contrast while keeping details.
@@ -26,32 +26,32 @@ The whole process takes maybe 30 minutes for a few small images (<100MB), longer
 ### 1) Run the preprocessing
    The preprocessing script (`1_preprocessing.ipynb`) applies contrast adapted histogram equalization (CLAHE, see e.g. https://imagej.net/plugins/clahe) and then resaves your data to a different directory. To run it, follow these steps:
  - Press windows + R
- - Type in `powershell`
- - Navigate to your personal copy of this repository (use `cd` command)
+ - Type `powershell` and hit enter
+ - Navigate to your personal copy of this repository (use `cd G:\path\to\directory` command )
  - Type `jupyter notebook`. This should open a browser window with a file browser. Continue in this file browser.
  - Open `preprocessing.ipynb`
  - Make sure you placed your raw images into the `0_raw` folder, press the double arrow at the top of the window.
  - After the script is finished, your preprocessed and re-saved data should be in the `1_preprocessed` folder.
- - Keep the browser open for later.
+ - Keep the browser open for later
 
 ### 2) Predict the data using Uni-EM
 - Open Uni-EM on the desktop (`Uni-EM\main.exe`) - starting this might take a minute
 - Open the following three folders by dragging and dropping them into the Uni-EM window. There is no feedback to this from the GUI window, only in the accompanying terminal:
     1) The folder your preprocessed images are in: `1_preprocessed` as described above
     2) An empty folder you want your predicted images to be in (`2_predicted`)
-    3) The model folder `E:\AG_Morawski\Philip\EM\20230419_densenet_12_12_20` (Please *do not* move this folder)
+    3) The model folder `E:\AG_Morawski\Philip\EM\20230419_densenet_12_12_20` (Please *do not* move or rename this folder)
 - Click Segmentation -> 2D DNN and then click on the inference tab
 - Select the three folders you already opened above as Image folder, Model Folder, and Output Segmentation folder (only the correct folder will appear in each of the dropdown menus).
 - Select the maximum maximal unit size (2048)
 - Click "Execute" and watch the model do its work in the terminal (or don't and grab a coffee)
 - Once the script is done, it will display `Inference finished` in the terminal. 
 
-Side note: At this point, if you are proficient with image analysis tools (e.g. python or FIJI), you may want to take these output images and design your own downstream analysis. However, you can also feel free to continue with the `3_postprocessing.ipynb`. 
+Side note: At this point, if you are proficient with image analysis tools (e.g. python or FIJI), you might want to take these output images and design your own downstream analysis. However, you can also feel free to continue with the `3_postprocessing.ipynb`. 
 
 
 ### 3) Run the postprocessing
-- Return to the Jupyter window in the browser, which you opened in step 1. Open `3_postprocessing.ipynb`.
-- If you used the folder structure of the repository, you do not need to prepare anything. If not, insert the path where your predicted images were saved to the variable `path_raw_predictions`. If you want 
+- Return to the Jupyter window in the browser which you opened in step 1. Open `3_postprocessing.ipynb`.
+- If you used the folder structure of the repository, you do not need to prepare anything and hit go. If not, insert the path where your predicted images were saved to the variable `path_raw_predictions`. 
   - Side note: The output from the DNN is a classification of your data into three categories: 1) Background 2) Fiber and 3) Myelin. All three of these classes are coded as intensities in your greyscale output image. Depending on how many pixels where the model was uncertain you want to include in downstream analysis, you can vary the initial thresholds. I suggest using the following values (which are already in the script): Myelin > 55, Fibers >24 and <40, Background is <=24. You can try and adapt these if you feel it might work better with your data.
 - Click the double arrows at the top of the jupyter notebook to run it
 - The script iterates through all of your data and saves processed versions of each image in `path_results`. You will also get a .csv and .xlsx file once everything is done, both of which include all of your measured results.
@@ -59,7 +59,7 @@ Side note: At this point, if you are proficient with image analysis tools (e.g. 
 
 
 ### 4 (optional) Run the validation
-- To get measures of how good the model performs on your data, you will need to validate the model. For this purpose, you can use `postprocessing_val.ipynb`. To do so, you will need a manually labeled version of your data and the models raw prediction results (which are generated after step #2).
-- manually labeled data can be generated e.g. with GIMP (https://www.gimp.org/) or a variety of other image manipulation tools. It should be analogous to the included validation.png.
+- To get measures of how good the model performs on your data, you will need to validate the model. For this purpose, you can use `4_validation.ipynb`. To do so, you will need a manually labeled version of a subset of your data and the models raw prediction results (which are generated after step #2).
+- Manually labeled data can be generated e.g. with GIMP (https://www.gimp.org/) or a variety of other image manipulation tools. It should be analogous to the included `validation.png`.
 - To run the validation script, replace the present files with your own data and press the double arrow at the top of the ipynb.
 - After running the script, you will get a bunch of different measures telling how well the whole pipeline works on your data.
