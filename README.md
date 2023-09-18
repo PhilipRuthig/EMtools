@@ -2,7 +2,7 @@
 ![Visualization of raw, predicted and final segmentation](https://i.imgur.com/hX9HMJN.jpeg)
 
 ## Intro
-This collection of scripts is meant to be used to preprocess, segment, and analyze 2D TEM images of myelinated fibers. It is very much a work in progress and bugs are expected. Nevertheless, the pipeline usually runs well and delivers (imo) satisfactory results. The scripts in this repository are meant to be used in conjunction with the Uni-EM installation on the Höllenmaschine 2.0 (Room 2101) of the Paul Flechsig Institute in Leipzig. 
+This collection of scripts is meant to be used to preprocess, segment, and analyze 2D TEM images of myelinated fibers. It is very much a work in progress and bugs are expected. The scripts in this repository are meant to be used in conjunction with the Uni-EM installation on the Höllenmaschine 2.0 (Room 2101) of the Paul Flechsig Institute in Leipzig. 
 
 The whole analysis pipeline consists of four core steps, including an optional validation step:
   1) Preprocessing. This step applies a contrast-enhancing filter to your raw images, enhancing the local contrast while keeping details.
@@ -17,7 +17,7 @@ Disclaimer: The model was trained on manually labeled data from human corpus cal
 
 
 ## Step-by-Step
-The whole process takes maybe 30 minutes for a few small images (<100MB), longer for more. For most use cases, all of these data analysis steps will fit within half a day or so.
+The whole process takes maybe 30 minutes for a few small images (<100MB), longer for more.
 
 ### 0) Prepare your 2D TEM images 
    - If you haven't, download this repository and place it into your personal folder on on Hoellenmaschine 2.0.
@@ -33,7 +33,7 @@ The whole process takes maybe 30 minutes for a few small images (<100MB), longer
  - If your images are small and/or lower magnification than 3000x, you may want to set the downscale factor `ds`to 1 or 2 instead of 4.
  - Make sure you placed your raw images into the `0_raw` folder. Then, press the double arrow at the top of the window and then press `Restart and run all cells`.
  - After the script is finished, your preprocessed and re-saved data should be in the `1_preprocessed` folder.
- - Keep the browser open for later.
+ - Keep the browser open for later
 
 Note: Keep in mind that your images will be cropped to 1024x1024 or 2048x2048 pixels (after downscaling) depending on their size, since these are the only dimensions the neural net accepts.
 
@@ -59,7 +59,7 @@ Note: Keep in mind that your images will be cropped to 1024x1024 or 2048x2048 pi
 
 
 ### 4 (optional) Run the validation
-- To get measures of how good the model performs on your data, you will need to validate the model. For this purpose, you can use `postprocessing_val.ipynb`. To do so, you will need a manually labeled version of your data and the models raw prediction results (which are generated after step #2).
-- manually labeled data can be generated e.g. with GIMP (https://www.gimp.org/) or a variety of other image manipulation tools. It should be analogous to the included validation.png.
+- To get measures of how good the model performs on your data, you will need to validate the model. For this purpose, you can use `4_validation.ipynb`. To do so, you will need a manually labeled version of a subset of your data and the models raw prediction results (which are generated after step #2).
+- Manually labeled data can be generated e.g. with GIMP (https://www.gimp.org/) or a variety of other image manipulation tools. It should be analogous to the included `validation.png`.
 - To run the validation script, replace the present files with your own data and press the double arrow at the top of the ipynb.
 - After running the script, you will get a bunch of different measures telling how well the whole pipeline works on your data.
