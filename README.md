@@ -30,7 +30,7 @@ The whole process takes maybe 30 minutes for a few small images (<100MB), longer
  - Navigate to your downloaded `EMtools-main` folder
  - Hold the `shift key`, right click in an empty space inside the folder and click `open powershell window here`
  - Type `jupyter notebook`. This should open a browser window with a file browser. Continue in this file browser.
- - Open `preprocessing.ipynb`
+ - Open `1_preprocessing.ipynb`
  - If your images are small and/or lower magnification than 3000x, you may want to set the downscale factor `ds`to 1 or 2 instead of 4.
  - Make sure you placed your raw images into the `0_raw` folder. Then, press the double arrow at the top of the window and then press `Restart and run all cells`.
  - After the script is finished, your preprocessed and re-saved data should be in the `1_preprocessed` folder.
