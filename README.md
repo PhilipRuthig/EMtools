@@ -22,6 +22,7 @@ The whole process takes maybe 30 minutes for a few small images (<100MB), longer
 ### 0) Prepare your 2D TEM images 
    - If you haven't, download this repository and place it into your personal folder on on Hoellenmaschine 2.0.
    - Your raw TEM images should be (approximately) 3000x magnification, in .tif or .png format. Put them all into the provided `0_raw` folder in the repository.
+   - Ideally, your pictures should be larger than 8192x8192 pixels. The minimum size is 1024x1024.
 
 
 ### 1) Run the preprocessing
