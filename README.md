@@ -51,9 +51,9 @@ Note: Keep in mind that your images will be cropped to 1024x1024 or 2048x2048 pi
 - Once the script is done, it will display `Inference finished` in the terminal. 
 
 ### 3) Run the postprocessing
-- Return to the Jupyter window in the browser, which you opened in step 1. Open `3_postprocessing.ipynb`.
+- Return to the browser which you opened in step 1. Open `3_postprocessing.ipynb`.
 - Specify the pixel size in the variable `px_size` if you want your outputs to be correctly scaled.
-  - Side note: The output from the DNN is a classification of your data into three categories: 1) Background 2) Fiber and 3) Myelin. All three of these classes are coded as intensities in the output image. Depending on how many "uncertain" pixels you want to include in downstream analysis, you can try varying the threshold values that.
+  - Side note: The output from the DNN is a classification of your data into three categories: 1) Background 2) Fiber and 3) Myelin. All three of these classes are coded as intensities in the output image. Depending on how many "uncertain" pixels you want to include in downstream analysis, you can try varying the threshold values `threshold_myelin`, `threshold_fiber_lower`, `threshold_fiber_upper`. 
 - Click the double arrows at the top of the jupyter notebook to run it
 - The script will save save processed versions of each image in `3_postprocessed`. You will also get a .csv and .xlsx file containing all of your measures once everything is done, both of which include all of your measured results, and where you can find each given cell (file name and slice)
 - For a customized analysis in other programs (FIJI, your own python script, etc..), the raw binary masks are also included in the results (*filename*_outer_labeled.tif and *filename*_inner_labeled.tif).
