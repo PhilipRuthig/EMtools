@@ -7,7 +7,7 @@ This collection of scripts is meant to be used to preprocess, segment, and analy
 The whole analysis pipeline consists of four core steps, including an optional validation step:
   1) Preprocessing. This step applies a contrast-enhancing filter to your raw images, enhancing the local contrast while keeping details.
   2) Prediction by the neural net. This neural net is trained to classify your images in three categories: Myelin, Fiber, and Background. The output is of the same shape as your input data, with each pixel intensity value corresponding to one of these three classes (Semantic segmentation).
-  3) Postprocessing. In this step, the Semantic segmentation (which pixel is of myelin/fiber/background class?) is turned into an instance segmentation (which of these pixels are part of a cell?). This means that through a series of image analysis steps, neighbouring instances of the same class (e.g. two myelin sheaths touching) are detached from each other and individually labeled. After that, a series of measurements are taken from each cell and results are saved as images and a .csv file.
+  3) Postprocessing. In this step, the Semantic segmentation (which pixel is of myelin/fiber/background class?) is turned into an instance segmentation (which of these pixels are part of a cell?). This means that through a series of image analysis steps, neighbouring instances of the same class (e.g. two myelin sheaths touching) are detached from each other and individually labeled. There are also a few filtering steps happening that filter unrealistic or impossible cells (e.g. very small ones, >5 pixels). After that, a series of geometric measurements are taken from each cell and results are saved as images and a .csv file.
   4) Optional: Validation. This step requires a manually labeled "ground truth" dataset of your specific data and outputs various validation measures, which your reviewers will probably want to see.
 
 Disclaimer: The model was trained on manually labeled data from human corpus callosum samples. Therefore, this is where it should work best. Our testing in human superficial white matter and rat and hamster cortex and spinal cord showed that it also yields satisfactory results when used somewhere else, as long as the tissue contains myelinated fibers (the more, the better). A good rule of thumb is: The more similar your data is to the image shown above, the better the whole pipeline will perform.
@@ -20,7 +20,7 @@ Disclaimer: The model was trained on manually labeled data from human corpus cal
 
 ### 0) Prepare your 2D TEM images 
    - If you haven't, download this repository and place it into your personal folder on Hoellenmaschine 2.0.
-   - Your raw TEM images should ideally be 3150x magnification, in .tif or .png format. Put them all into the provided `0_raw` folder in the repository.
+   - Your raw TEM images should ideally be 3150x magnification, in .tif or .png format. Put them all into the provided `0_raw` folder in the repository. If they aren't, you can adjust for this later.
    - The minimum size for pictures is 1024x1024 pixels. Ideally, your pictures should be 2048x2048 pixels after downsampling.
 
 
