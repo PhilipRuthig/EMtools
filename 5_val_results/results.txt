@@ -1,0 +1,13 @@
+Correctly identified cells (prediction): 269
+False Positives (prediction): 10
+False Negatives (prediction): 50
+Percentage of cells found: 0.8432601880877743
+Percentage of cells falsely identified: 0.035842293906810034
+Cells removed because of touching border (prediction): 44
+Cells removed because of touching border (validation): 8
+Cells removed because labeled without inner (prediction): 0
+Cells removed because labeled without outer (prediction): 8
+IoU for fibers: 0.8974633017136686
+IoU for myelin: 0.8226586075759221
+dice coefficient / F1 score for fibers: 0.9459611692127449
+dice coefficient / F1 score for myelin: 0.9027018051065875
