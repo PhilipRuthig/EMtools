@@ -12,29 +12,26 @@ The whole analysis pipeline consists of four core steps, including an optional v
 
 Disclaimer: The model was trained on manually labeled data from human corpus callosum samples. Therefore, this is where it should work best. Our testing in human superficial white matter and rat and hamster cortex and spinal cord showed that it also yields satisfactory results when used somewhere else, as long as the tissue contains myelinated fibers (the more, the better). A good rule of thumb is: The more similar your data is to the image shown above, the better the whole pipeline will perform.
 
-
 ---
-
 
 ## Step-by-Step
 
 ### 0) Prepare your 2D TEM images 
    - If you haven't, download this repository and place it into your personal folder on Hoellenmaschine 2.0.
-   - Your raw TEM images should ideally be 3150x magnification, in .tif or .png format. Put them all into the provided `0_raw` folder in the repository. If they aren't, you can adjust for this later.
-   - The minimum size for pictures is 1024x1024 pixels. Ideally, your pictures should be 2048x2048 pixels after downsampling.
-
+   - Your raw TEM images should ideally be 3150x magnification, in .tif or .png format. Put them all into the provided `0_raw` folder in the repository. If they aren't in the right magnification, you can adjust for this later.
+   - The minimum size for pictures is 1024x1024 pixels. Ideally, your pictures should be much larger.
 
 ### 1) Run the preprocessing
-   The preprocessing script (`1_preprocessing.ipynb`) applies contrast adapted histogram equalization (CLAHE, see e.g. https://imagej.net/plugins/clahe) and then resaves your data to a different directory.
+   The preprocessing script (`1_preprocessing.ipynb`) applies CLAHE (see e.g. https://imagej.net/plugins/clahe) and resaves your data to a different directory.
  - Navigate to your downloaded `EMtools-main` folder
  - Hold the `shift key`, right click in an empty space inside the folder and click `open powershell window here`
  - Type `jupyter notebook`. This opens a browser window with a file browser. In this file browser, open `1_preprocessing.ipynb`
- - If your images are small and/or lower magnification than 3150x, you may want to set the downscale factor `ds` to 1 or 2 instead of 4.
+ - If your images have a lower magnification than 3150x, you may want to set the downscale factor `ds` to 1 or 2 instead of 4.
  - Make sure you placed your raw images into the `0_raw` folder. Then, press the double arrow at the top of the window and then press `Restart and run all cells`.
  - After the script is finished, your preprocessed and re-saved data should be in the `1_preprocessed` folder.
  - Keep the browser open for later
 
-Note: Keep in mind that your images will be cropped to 1024x1024 or 2048x2048 pixels (after downscaling) depending on their size, since these are the only dimensions the neural net accepts.
+Note: Keep in mind that your images will be cropped to segments of 2048x2048, 1024x1024, or 512x512 pixels (after downscaling) depending on their size, since these are the only dimensions the neural net accepts. Therefore, edges of the image might be cropped off in the process.
 
 ### 2) Predict the data using Uni-EM
 - Open Uni-EM on the desktop (`Uni-EM\main.exe`) - starting this might take a minute
@@ -45,7 +42,7 @@ Note: Keep in mind that your images will be cropped to 1024x1024 or 2048x2048 pi
 - Click Segmentation -> 2D DNN and then click on the inference tab
 - Select the three folders you already opened above as Image folder, Model Folder, and Output Segmentation folder (only the correct folder will appear in each of the dropdown menus).
 - Select the maximum maximal unit size (2048)
-- Click "Execute" and watch the model do its work in the terminal (or don't and grab a coffee)
+- Click "Execute"
 - Once the script is done, it will display `Inference finished` in the terminal. 
 
 ### 3) Run the postprocessing
@@ -56,10 +53,9 @@ Note: Keep in mind that your images will be cropped to 1024x1024 or 2048x2048 pi
 - The script will save save processed versions of each image in `3_postprocessed`. You will also get a .csv and .xlsx file containing all of your measures once everything is done.
 - For a customized analysis in other programs (FIJI, your own python script, etc..), the raw binary masks are also included in the results (*filename*_outer_labeled.tif and *filename*_inner_labeled.tif).
 
-
 ### 4 (optional) Run the validation
-- To get measures of how good the model performs on your data, you will need to validate the model. For this purpose, you can use `4_validation.ipynb`. To do so, you will need a manually labeled version of a subset of your data and the models raw prediction results (which are generated after step #2).
-- Manually labeled data can be generated e.g. with GIMP (https://www.gimp.org/) or a variety of other image manipulation tools. It should be analogous to the included `validation.png`. Contact me for more info.
+- To get measures of how good the model performs on your data, you will need to validate the model, i.e. compare how the prediction of the model compares to manually segmented data which the model hasn't seen before. For this purpose, you can use `4_validation.ipynb`. You will need a manually labeled version of a subset of your data and the models raw prediction results (which are generated after step #2).
+- Manually labeled data can be generated e.g. with GIMP (https://www.gimp.org/) or a variety of other image manipulation tools. It should be analogous to the included `validation_cc.png`.
 - To run the validation script, replace the present files with your own data (but keep the filenames) and press the double arrow at the top of the ipynb.
-- After running the script, you will get a bunch of different measures telling how well the whole pipeline works on your data.
+- After running the script, you will get a bunch of different measures telling how well the whole pipeline works on your data. Check the script for more info.
 
