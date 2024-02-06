@@ -10,8 +10,6 @@ The whole analysis pipeline consists of four core steps, including an optional v
   3) Postprocessing. In this step, the Semantic segmentation (which pixel is of myelin/fiber/background class?) is turned into an instance segmentation (which of these pixels form a cell?). This means that through a series of image analysis steps, neighbouring instances of the same class (two myelin sheaths touching) are detached from each other and individually labeled. There are also a few filtering steps happening that filter unrealistic or impossible cells. After that, a series of geometric measurements are taken from each cell and results are saved as images and a csv/xlsx file.
   4) Optional: Validation. This step requires a manually labeled "ground truth" dataset of your specific data, and a corresponding predicted image. This scriüt outputs various validation measures, which your reviewers will probably want to see.
 
-Disclaimer: The model was trained on manually labeled data from human corpus callosum samples. Therefore, this is where it should work best. Our testing in human superficial white matter and rat and hamster cortex and spinal cord showed that it also yields satisfactory results when used somewhere else, as long as the tissue contains myelinated fibers (the more, the better). A good rule of thumb is: The more similar your data is to the image shown above, the better the whole pipeline will perform.
-
 ---
 
 ## Step-by-Step
