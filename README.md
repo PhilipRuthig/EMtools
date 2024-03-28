@@ -16,8 +16,8 @@ The whole analysis pipeline consists of four core steps, including an optional v
 
 ### 0) Prepare your 2D TEM images 
    - If you haven't, download this repository and place it into your personal folder on Hoellenmaschine 2.0.
-   - Your raw TEM images should ideally be 3150x magnification, in .tif or .png format. Put them all into the provided `0_raw` folder in the repository. If they aren't in the right magnification, you can adjust for this later.
-   - The minimum size for pictures is 1024x1024 pixels. Ideally, your pictures should be much larger.
+   - Your raw TEM images should ideally be 3150x magnification, in .tif or .png format, and in greyscale. Put them all into the provided `0_raw` folder in the repository. If they aren't in the right magnification, you can adjust for this later.
+   - The minimum size for pictures is 8096x8096 pixels. Ideally, your pictures should be much larger.
 
 ### 1) Run the preprocessing
    The preprocessing script (`1_preprocessing.ipynb`) applies CLAHE (see e.g. https://imagej.net/plugins/clahe) and resaves your data to a different directory.
@@ -36,7 +36,7 @@ Note: Keep in mind that your images will be cropped to segments of 2048x2048, 10
 - Open the following three folders by dragging and dropping them from the windows explorer into the Uni-EM window. There is no feedback to this from the GUI window, only in the accompanying terminal:
     1) The folder your preprocessed images are in: `1_preprocessed`
     2) An empty folder you want your predicted images to be in: `2_predicted`
-    3) The model folder `E:\AG_Morawski\Philip\EM\20230419_densenet_12_12_20` (Please *do not* move or rename this folder)
+    3) The model folder you want to use, e.g. `E:\AG_Morawski\Philip\EM\20230419_densenet_12_12_20` (Please *do not* move or rename this folder)
 - Click Segmentation -> 2D DNN and then click on the inference tab
 - Select the three folders you already opened above as Image folder, Model Folder, and Output Segmentation folder (only the correct folder will appear in each of the dropdown menus).
 - Select the maximum maximal unit size (2048)
