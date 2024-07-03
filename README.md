@@ -17,7 +17,7 @@ The whole analysis pipeline consists of four core steps, including an optional v
 ### 0) Prepare your 2D TEM images 
    - If you haven't, download this repository and place it into your personal folder on Hoellenmaschine 2.0.
    - Your raw TEM images should ideally be 3150x magnification, in .tif or .png format, and in greyscale. Put them all into the provided `0_raw` folder in the repository. If they aren't in the right magnification, you can adjust for this later.
-   - The minimum size for pictures is 8096x8096 pixels. Ideally, your pictures should be much larger.
+   - The minimum size for pictures is 8192x8192 pixels. Ideally, your pictures should be much larger.
 
 ### 1) Run the preprocessing
    The preprocessing script (`1_preprocessing.ipynb`) applies CLAHE (see e.g. https://imagej.net/plugins/clahe) and resaves your data to a different directory.
